@@ -7,12 +7,16 @@
     <meta name="description" content="Acquisity is the ultimate AI-powered B2B growth system. Automate lead generation, cold outreach, and sales analysis to scale your business faster."/>
     <title>Acquisity - AI B2B Growth System</title>
     
-    <!-- Performance: Preconnect to external origins -->
+    <!-- Performance: Preconnect to critical domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    
+    <!-- Performance: Preload the font used for the H1 (LCP element) -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCOjFwrM2omLpTeZ0W0.woff2" as="font" type="font/woff2" crossorigin>
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
         window.process = window.process || { env: { API_KEY: "" } };
@@ -25,9 +29,8 @@
                         "primary": "#0066ff",
                         "background-light": "#f5f7f8",
                         "background-dark": "#0f1723",
-                        // Improved contrast for accessibility
                         gray: {
-                            500: '#606770', // Darker gray for contrast
+                            500: '#606770',
                             400: '#727a85',
                         }
                     },
@@ -35,7 +38,7 @@
                         "display": ["Inter", "sans-serif"]
                     },
                     animation: {
-                        'marquee': 'marquee 30s linear infinite',
+                        'marquee': 'marquee 40s linear infinite',
                     },
                     keyframes: {
                         marquee: {
@@ -48,11 +51,11 @@
         }
     </script>
     <style>
-        /* Performance: Ensure text is visible during font load */
         body { 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
             font-display: swap; 
+            overflow-x: hidden;
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -62,8 +65,15 @@
         }
 
         @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slide-in-from-bottom { from { transform: translateY(1rem); } to { transform: translateY(0); } }
-        .animate-in { animation: fade-in 0.5s ease-out, slide-in-from-bottom 0.5s ease-out; }
+        @keyframes slide-in-from-bottom { from { transform: translateY(0.5rem); } to { transform: translateY(0); } }
+        .animate-in { animation: fade-in 0.4s ease-out, slide-in-from-bottom 0.4s ease-out; }
+        
+        /* Layout Stability for the Hero Insight Box */
+        .hero-insight-container {
+            min-height: 52px;
+            contain-intrinsic-size: 0 52px;
+            content-visibility: auto;
+        }
     </style>
 <script type="importmap">
 {

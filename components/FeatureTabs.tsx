@@ -30,18 +30,20 @@ export const FeatureTabs: React.FC = () => {
   };
 
   const renderDashboardMockup = (id: string) => {
+    // Added Cloudinary optimization flags: f_auto (auto format like WebP/Avif), q_auto (optimized compression)
+    const base = 'https://res.cloudinary.com/dkxe8h4cs/image/upload/f_auto,q_auto';
     const imageMap: Record<string, string> = {
-      'employees': 'https://res.cloudinary.com/dkxe8h4cs/image/upload/v1771057298/ai_employou_dashbarod_nkrfxr.png',
-      'email': 'https://res.cloudinary.com/dkxe8h4cs/image/upload/v1771056424/cold_email_uwnk2r.png',
-      'sdr': 'https://res.cloudinary.com/dkxe8h4cs/image/upload/v1771056425/ai_sdk_wpnp7e.png',
-      'proposal': 'https://res.cloudinary.com/dkxe8h4cs/image/upload/v1771056422/ai_propsal_maker_mbyeta.png',
-      'analyzer': 'https://res.cloudinary.com/dkxe8h4cs/image/upload/v1771056422/ai_sales_b0ob4i.png',
+      'employees': `${base}/v1771057298/ai_employou_dashbarod_nkrfxr.png`,
+      'email': `${base}/v1771056424/cold_email_uwnk2r.png`,
+      'sdr': `${base}/v1771056425/ai_sdk_wpnp7e.png`,
+      'proposal': `${base}/v1771056422/ai_propsal_maker_mbyeta.png`,
+      'analyzer': `${base}/v1771056422/ai_sales_b0ob4i.png`,
     };
 
     const imageUrl = imageMap[id];
 
     return (
-      <div className="relative w-full aspect-[16/10] bg-gray-100/50 overflow-hidden rounded-xl md:rounded-[2.5rem]">
+      <div className="relative w-full aspect-[16/10] bg-gray-200/40 overflow-hidden rounded-xl md:rounded-[2.5rem]">
         <div className={`w-full h-full transition-opacity duration-300 ease-in-out`} style={{ opacity: contentOpacity }}>
           {imageUrl && (
             <img 
@@ -49,6 +51,7 @@ export const FeatureTabs: React.FC = () => {
               alt={`${id} interface showing B2B growth tools`}
               className="w-full h-full object-contain md:object-cover"
               loading="lazy"
+              decoding="async"
               width="1600"
               height="1000"
             />
@@ -60,10 +63,7 @@ export const FeatureTabs: React.FC = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-20 py-4 md:py-12 overflow-hidden">
-      <nav className="relative mb-6 md:mb-12 border-b border-gray-200 group" aria-label="Feature selection">
-        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#f5f7f8] to-transparent z-10 pointer-events-none md:hidden" aria-hidden="true"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#f5f7f8] to-transparent z-10 pointer-events-none md:hidden" aria-hidden="true"></div>
-        
+      <nav className="relative mb-6 md:mb-12 border-b border-gray-200" aria-label="Feature selection">
         <div 
           ref={scrollRef}
           className="flex md:justify-center overflow-x-auto no-scrollbar scroll-smooth px-6 md:px-0"
@@ -102,8 +102,6 @@ export const FeatureTabs: React.FC = () => {
         <div className="w-full relative z-10 animate-in">
           {renderDashboardMockup(displayTab)}
         </div>
-        <div className="absolute -z-10 -top-10 -left-10 w-40 h-40 bg-blue-500/5 blur-[80px] rounded-full pointer-events-none md:w-60 md:h-60"></div>
-        <div className="absolute -z-10 -bottom-10 -right-10 w-40 h-40 bg-teal-500/5 blur-[80px] rounded-full pointer-events-none md:w-60 md:h-60"></div>
       </div>
     </section>
   );

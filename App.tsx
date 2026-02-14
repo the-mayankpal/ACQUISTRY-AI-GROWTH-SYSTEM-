@@ -1,5 +1,4 @@
-
-import React, { ErrorInfo, ReactNode } from 'react';
+import React, { ErrorInfo, ReactNode, Component } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeatureTabs } from './components/FeatureTabs';
@@ -21,11 +20,13 @@ interface ErrorBoundaryState {
 }
 
 // Simple Error Boundary to prevent white screen
-// Fix: Explicitly use constructor to ensure React.Component generic types are correctly bound and 'props' is accessible
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+// Fix: Explicitly use Component generic types and class properties to ensure 'state' and 'props' are correctly typed and accessible
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  // Fix: Explicitly declare state to resolve 'Property state does not exist' errors on lines 28 and 41
+  public state: ErrorBoundaryState = { hasError: false };
+
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false };
   }
   
   static getDerivedStateFromError(_: Error): ErrorBoundaryState { 
@@ -37,7 +38,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   render(): React.ReactNode {
-    // Accessing state and props from the typed React.Component base
+    // Accessing state from the typed Component base
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-[#f5f7f8] p-6 text-center">
@@ -53,6 +54,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         </div>
       );
     }
+    // Fix: Using the Component generic base ensures this.props is correctly typed and accessible on line 56
     return this.props.children;
   }
 }
