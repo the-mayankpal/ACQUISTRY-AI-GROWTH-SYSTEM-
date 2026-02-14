@@ -1,5 +1,5 @@
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { ErrorInfo, ReactNode } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeatureTabs } from './components/FeatureTabs';
@@ -21,15 +21,12 @@ interface ErrorBoundaryState {
 }
 
 // Simple Error Boundary to prevent white screen
-// Fix: Pass explicit interfaces to Component to resolve state and props visibility issues
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    // Initialize state within the constructor
-    this.state = { hasError: false };
-  }
+// Fix: Use React.Component and class properties to ensure state and props are correctly typed and recognized by TS
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  // Fix: Use class property for state initialization to resolve property existence issues
+  state: ErrorBoundaryState = { hasError: false };
   
-  static getDerivedStateFromError(_: Error) { 
+  static getDerivedStateFromError(_: Error): ErrorBoundaryState { 
     return { hasError: true }; 
   }
   
@@ -38,7 +35,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   render() {
-    // Accessing state and props from the typed React Component base
+    // Fix: Accessing state and props from the typed React.Component base
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-[#f5f7f8] p-6 text-center">
