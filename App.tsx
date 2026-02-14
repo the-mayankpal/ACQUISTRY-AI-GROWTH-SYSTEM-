@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeatureTabs } from './components/FeatureTabs';
@@ -11,22 +11,71 @@ import { FAQ } from './components/FAQ';
 import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 
+// Define explicit interfaces for props and state to ensure generic types are correctly inferred
+interface ErrorBoundaryProps {
+  children?: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+// Simple Error Boundary to prevent white screen
+// Fix: Pass explicit interfaces to Component to resolve state and props visibility issues
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    // Initialize state within the constructor
+    this.state = { hasError: false };
+  }
+  
+  static getDerivedStateFromError(_: Error) { 
+    return { hasError: true }; 
+  }
+  
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) { 
+    console.error("App Crash:", error, errorInfo); 
+  }
+
+  render() {
+    // Accessing state and props from the typed React Component base
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-[#f5f7f8] p-6 text-center">
+          <div>
+            <h1 className="text-2xl font-black mb-4">Something went wrong.</h1>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-[#0066ff] text-white px-6 py-2 rounded-xl font-bold"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f5f7f8] font-display selection:bg-[#0066ff] selection:text-white overflow-x-hidden">
-      <Navbar />
-      <main>
-        <Hero />
-        <FeatureTabs />
-        <TrustedBy />
-        <HowItWorks />
-        <DarkSystemSection />
-        <BuiltForTeams />
-        <FAQ />
-        <FinalCTA />
-      </main>
-      <Footer />
-    </div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-[#f5f7f8] font-display selection:bg-[#0066ff] selection:text-white overflow-x-hidden">
+        <Navbar />
+        <main>
+          <Hero />
+          <FeatureTabs />
+          <TrustedBy />
+          <HowItWorks />
+          <DarkSystemSection />
+          <BuiltForTeams />
+          <FAQ />
+          <FinalCTA />
+        </main>
+        <Footer />
+      </div>
+    </ErrorBoundary>
   );
 };
 
