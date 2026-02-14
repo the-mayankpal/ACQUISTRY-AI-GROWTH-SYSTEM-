@@ -21,10 +21,12 @@ interface ErrorBoundaryState {
 }
 
 // Simple Error Boundary to prevent white screen
-// Fix: Use React.Component and class properties to ensure state and props are correctly typed and recognized by TS
+// Fix: Explicitly use constructor to ensure React.Component generic types are correctly bound and 'props' is accessible
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  // Fix: Use class property for state initialization to resolve property existence issues
-  state: ErrorBoundaryState = { hasError: false };
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
   
   static getDerivedStateFromError(_: Error): ErrorBoundaryState { 
     return { hasError: true }; 
@@ -34,8 +36,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     console.error("App Crash:", error, errorInfo); 
   }
 
-  render() {
-    // Fix: Accessing state and props from the typed React.Component base
+  render(): React.ReactNode {
+    // Accessing state and props from the typed React.Component base
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-[#f5f7f8] p-6 text-center">

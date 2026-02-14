@@ -16,14 +16,12 @@ export const Hero: React.FC = () => {
   const getAIInsight = async () => {
     setIsLoading(true);
     try {
-      // Fix: Use process.env.API_KEY directly as required by Gemini API guidelines
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: 'Give me one short, punchy B2B growth hack or tip for 2024. Maximum 15 words.',
       });
       
-      // Fix: Use the .text property directly from the response object
       const text = response.text;
       if (text) {
         setInsight(text);
@@ -31,8 +29,6 @@ export const Hero: React.FC = () => {
         throw new Error("Empty response from AI");
       }
     } catch (error) {
-      console.warn("Gemini AI integration skipped or failed. Using fallback insight.", error);
-      // Pick a random fallback
       setInsight(fallbacks[Math.floor(Math.random() * fallbacks.length)]);
     } finally {
       setIsLoading(false);
@@ -42,17 +38,17 @@ export const Hero: React.FC = () => {
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20 lg:py-24 text-center">
       <div className="max-w-4xl mx-auto space-y-6 md:space-y-10">
-        {/* AI Growth Insight Box */}
         <div className="flex justify-center mb-8 h-[52px]">
-          <div className="inline-flex flex-col items-center bg-white/40 backdrop-blur-md border border-white/60 p-1.5 rounded-2xl shadow-sm max-w-sm transition-all">
+          <div className="inline-flex flex-col items-center bg-white/40 backdrop-blur-md border border-white/60 p-1.5 rounded-2xl shadow-sm max-w-sm transition-all overflow-hidden">
             {insight ? (
-              <div className="px-4 py-2 animate-in text-sm font-medium text-gray-700 leading-snug flex items-center gap-2">
+              <div className="px-4 py-2 animate-in text-sm font-medium text-gray-800 leading-snug flex items-center gap-2">
                 <span className="text-[#0066ff] font-bold">AI Tip:</span> 
                 <span>{insight}</span>
                 <button 
                   onClick={getAIInsight} 
                   className="p-1 hover:bg-gray-100 rounded-full transition-colors flex items-center justify-center"
                   disabled={isLoading}
+                  aria-label="Refresh AI tip"
                   title="New Insight"
                 >
                   <span className={`material-symbols-outlined text-[14px] ${isLoading ? 'animate-spin' : ''}`}>refresh</span>
@@ -62,6 +58,7 @@ export const Hero: React.FC = () => {
               <button 
                 onClick={getAIInsight}
                 disabled={isLoading}
+                aria-label="Generate AI growth insight"
                 className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#0066ff] hover:bg-white/50 rounded-xl transition-all"
               >
                 <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
@@ -71,21 +68,21 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        <h2 className="text-[2.2rem] sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight text-[#101418] max-w-3xl mx-auto">
+        <h1 className="text-[2.2rem] sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight text-[#101418] max-w-3xl mx-auto">
           Your AI Growth System That Gets You <br className="hidden md:block" />
           <span className="text-[#0066ff]">B2B Clients</span>
-        </h2>
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed px-4">
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
           Find profitable niches, automate cold outreach, <br className="hidden md:block" />
           analyze sales calls, and create growth <br className="hidden md:block" />
           strategies – all powered by AI.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 pt-4 px-6 sm:px-0">
           <button className="w-full sm:w-auto bg-[#0066ff] text-white font-bold px-8 md:px-10 py-3.5 md:py-4 rounded-xl text-base md:text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-xl md:text-2xl">play_circle</span>
+            <span className="material-symbols-outlined text-xl md:text-2xl" aria-hidden="true">play_circle</span>
             Watch a demo
           </button>
-          <button className="w-full sm:w-auto bg-white border border-gray-100 shadow-sm font-bold px-8 md:px-10 py-3.5 md:py-4 rounded-xl text-base md:text-lg hover:bg-gray-50 transition-all text-[#101418]">
+          <button className="w-full sm:w-auto bg-white border border-gray-200 shadow-sm font-bold px-8 md:px-10 py-3.5 md:py-4 rounded-xl text-base md:text-lg hover:bg-gray-50 transition-all text-[#101418]">
             Book a call
           </button>
         </div>

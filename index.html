@@ -4,12 +4,17 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="description" content="Acquisity is the ultimate AI-powered B2B growth system. Automate lead generation, cold outreach, and sales analysis to scale your business faster."/>
     <title>Acquisity - AI B2B Growth System</title>
+    
+    <!-- Performance: Preconnect to external origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
-        // Shim process.env for browser environments to prevent crashes
         window.process = window.process || { env: { API_KEY: "" } };
         
         tailwind.config = {
@@ -20,22 +25,22 @@
                         "primary": "#0066ff",
                         "background-light": "#f5f7f8",
                         "background-dark": "#0f1723",
+                        // Improved contrast for accessibility
+                        gray: {
+                            500: '#606770', // Darker gray for contrast
+                            400: '#727a85',
+                        }
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
                     },
                     animation: {
                         'marquee': 'marquee 30s linear infinite',
-                        'bounce-slow': 'bounce-slow 4s ease-in-out infinite',
                     },
                     keyframes: {
                         marquee: {
                             '0%': { transform: 'translateX(0)' },
                             '100%': { transform: 'translateX(-50%)' },
-                        },
-                        'bounce-slow': {
-                            '0%, 100%': { transform: 'translateY(-50%) translateX(0)' },
-                            '50%': { transform: 'translateY(-60%) translateX(0)' },
                         }
                     }
                 },
@@ -43,7 +48,12 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        /* Performance: Ensure text is visible during font load */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased; 
+            font-display: swap; 
+        }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -67,15 +77,9 @@
   }
 }
 </script>
-<script>
-  window.addEventListener('error', function(event) {
-    console.error('Captured global error:', event.error);
-  });
-</script>
 </head>
 <body class="bg-[#f5f7f8] text-[#101418]">
     <div id="root"></div>
-    <!-- Load the React Application -->
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>
